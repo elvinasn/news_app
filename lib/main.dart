@@ -1,69 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:news_app/presentation/common/router/router.dart';
+import 'package:news_app/presentation/common/utils/theme.dart';
+
+final sl = GetIt.instance;
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  State<MyApp> createState() => _MyAppState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
+class _MyAppState extends State<MyApp> {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
+  void initState() {
+    sl.registerSingleton<AppRouter>(AppRouter());
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+    return MaterialApp.router(
+      scrollBehavior:
+          const MaterialScrollBehavior().copyWith(scrollbars: false),
+      builder: (context, child) {
+        return Overlay(
+          initialEntries: [
+            if (child != null) ...[
+              OverlayEntry(
+                builder: (context) {
+                  return child;
+                },
+              ),
+            ],
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+        );
+      },
+      title: 'News App',
+      routerConfig: GetIt.I<AppRouter>().router,
+      theme: AppTheme.themeData(),
     );
   }
 }
