@@ -22,3 +22,25 @@ class HomePageRoute extends AppRoute {
           params: {},
         );
 }
+
+class ArticleRoute extends AppRoute {
+  ArticleRoute({
+    required String id,
+  }) : super(
+          name: 'article',
+          path: '/article/:id',
+          params: {
+            'id': id,
+          },
+        );
+}
+
+class WebViewRoute extends AppRoute {
+  WebViewRoute({required String url})
+      : super(
+          path: '/webview',
+          name: 'webview',
+          params: {},
+          extra: url,
+        );
+}

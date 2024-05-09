@@ -4,31 +4,31 @@ class AppTextStyles {
   AppTextStyles();
 
   final TextStyle h1 = const TextStyle(
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 36,
     height: 1.2,
   );
   final TextStyle h2 = const TextStyle(
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 32,
     height: 1.2,
   );
   final TextStyle h3 = const TextStyle(
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 28,
     height: 1.3,
   );
   final TextStyle h4 = const TextStyle(
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 24,
     height: 1.2,
   );
   final TextStyle h5 = const TextStyle(
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     fontStyle: FontStyle.normal,
     fontSize: 20,
     height: 1.2,

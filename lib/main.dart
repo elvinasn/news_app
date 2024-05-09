@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:news_app/injection/inject.dart' as di;
 import 'package:news_app/presentation/common/router/router.dart';
 import 'package:news_app/presentation/common/utils/theme.dart';
 
@@ -19,9 +20,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    sl.registerSingleton<AppRouter>(AppRouter());
-
     super.initState();
+    di.init();
   }
 
   @override

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:news_app/presentation/common/router/routes.dart';
+import 'package:news_app/presentation/screens/article_screen.dart';
+import 'package:news_app/presentation/screens/home_screen.dart';
+import 'package:news_app/presentation/screens/webview_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final RouteObserver<ModalRoute<void>> routeObserver =
@@ -19,7 +22,25 @@ class AppRouter {
       GoRoute(
         name: 'home',
         path: '/',
-        builder: (context, state) => Container(),
+        builder: (context, state) => const HomeScreen(),
+        routes: [
+          GoRoute(
+            name: 'article',
+            path: 'article/:id',
+            builder: (context, state) {
+              final id = state.pathParameters['id'];
+              return ArticleScreen(articleId: id ?? '');
+            },
+          ),
+          GoRoute(
+            path: 'webview',
+            name: 'webview',
+            builder: (context, state) {
+              final extra = state.extra! as String;
+              return WebViewScreen(url: extra);
+            },
+          ),
+        ],
       ),
     ],
   );
