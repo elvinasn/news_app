@@ -3,9 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:news_app/core/error/failure.dart';
+import 'package:news_app/data/data_sources/local/news_dao.dart';
 import 'package:news_app/data/data_sources/remote/news_api.dart';
 import 'package:news_app/data/models/article.dart';
 import 'package:news_app/data/repositories/news_repository_impl.dart';
+import 'package:news_app/data/tables/database.dart';
 
 import 'news_repository_impl_test.mocks.dart';
 
@@ -16,10 +18,11 @@ void main() {
   late MockNewsApi mockNewsApi;
 
   late NewsRepositoryImpl newsRepositoryImpl;
+  final appDatabase = AppDatabase(memory: true);
 
   setUp(() {
     mockNewsApi = MockNewsApi();
-    newsRepositoryImpl = NewsRepositoryImpl(mockNewsApi);
+    newsRepositoryImpl = NewsRepositoryImpl(mockNewsApi, NewsDao(appDatabase));
   });
 
   final testArticles = [

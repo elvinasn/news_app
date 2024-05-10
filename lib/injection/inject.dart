@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get_it/get_it.dart';
+import 'package:news_app/data/data_sources/local/news_dao.dart';
 import 'package:news_app/data/data_sources/remote/news_api.dart';
 import 'package:news_app/data/repositories/analytics_repository_impl.dart';
 import 'package:news_app/data/repositories/news_repository_impl.dart';
+import 'package:news_app/data/tables/database.dart';
 import 'package:news_app/domain/repositories/analytics_repository.dart';
 import 'package:news_app/domain/repositories/news_repository.dart';
 import 'package:news_app/domain/use-cases/get_top_headlines.dart';
@@ -17,6 +19,12 @@ final sl = GetIt.instance;
 void init() {
   sl
     ..registerSingleton<Dio>(Dio())
+    ..registerSingleton<AppDatabase>(AppDatabase())
+    ..registerSingleton<NewsDao>(
+      NewsDao(
+        sl<AppDatabase>(),
+      ),
+    )
     ..registerSingleton<FirebaseAnalytics>(FirebaseAnalytics.instance)
     ..registerSingleton<NewsApi>(
       NewsApi(
@@ -26,6 +34,7 @@ void init() {
     ..registerSingleton<NewsRepository>(
       NewsRepositoryImpl(
         sl<NewsApi>(),
+        sl<NewsDao>(),
       ),
     )
     ..registerSingleton<AnalyticsRepository>(

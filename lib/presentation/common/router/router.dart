@@ -1,6 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:news_app/presentation/common/router/routes.dart';
