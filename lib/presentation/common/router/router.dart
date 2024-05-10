@@ -1,19 +1,30 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:news_app/presentation/common/router/routes.dart';
+import 'package:news_app/presentation/common/store/analytics_store.dart';
 import 'package:news_app/presentation/screens/article_screen.dart';
 import 'package:news_app/presentation/screens/home_screen.dart';
 import 'package:news_app/presentation/screens/webview_screen.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
-final RouteObserver<ModalRoute<void>> routeObserver =
-    RouteObserver<ModalRoute<void>>();
 
 class AppRouter {
+  AppRouter(
+    this._analyticsStore,
+    this._firebaseAnalytics,
+  );
+  final AnalyticsStore _analyticsStore;
+  final FirebaseAnalytics _firebaseAnalytics;
   late final GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
-    observers: [routeObserver],
+    observers: [
+      FirebaseAnalyticsObserver(
+        analytics: _firebaseAnalytics,
+      ),
+    ],
     redirect: (context, state) {
       return null;
     },
@@ -28,6 +39,9 @@ class AppRouter {
             name: 'article',
             path: 'article/:id',
             builder: (context, state) {
+              _analyticsStore.logEvent('article_viewed', {
+                'article_id': state.pathParameters['id'],
+              });
               final id = state.pathParameters['id'];
               return ArticleScreen(articleId: id ?? '');
             },
@@ -36,6 +50,9 @@ class AppRouter {
             path: 'webview',
             name: 'webview',
             builder: (context, state) {
+              _analyticsStore.logEvent('webview_opened', {
+                'url': state.extra,
+              });
               final extra = state.extra! as String;
               return WebViewScreen(url: extra);
             },
